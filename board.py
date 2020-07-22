@@ -66,4 +66,12 @@ class board:
         self.setWhite(size)
         self.setBlack(size)
     
+    def validMoves(self, pos):
+        #top direction
+        for i in range(str(pos[1]),  ):
+            pass
+            
+    def getNbrPawns(self):
+        return self.nbrPawns
+
 
