@@ -21,13 +21,14 @@ class board:
         blackPawns=  (self.nbrPawns-1)*2//3 + 1
         #only for the black pawns on top and bottom without the middle ones
         count=0
-        for i in range(4, size-3):
+        for i in range(4, size-2):
             self.board1['a'+str(i)]= 'P'+ str(i-3)
             self.board1[self.yAxis[-1]+str(i)]='P'+ str( blackPawns - (i-3)) 
             count+=1 
 #        for i in range(self.yAxis[3], self.yAxis[size-4] ):
+        cpt=1
         for i in range( 3, size-4 ):
-            cpt=1
+            
             self.board1[self.yAxis[i]+ '1' ]= 'P'+str( cpt +count)
             self.board1[self.yAxis[i]+ str(size)]= 'P'+ str(blackPawns-count -cpt )
             cpt+=1
@@ -36,3 +37,17 @@ class board:
         self.board1[ self.yAxis[-2] + str(size//2+1) ] = 'P'+str(blackPawns//2)
         self.board1[ self.yAxis[size//2] + '1' ] = 'P'+str(blackPawns//2+1)
         self.board1[ self.yAxis[size//2] + str(size-1) ] = 'P'+str(blackPawns//2+2)
+
+    def setWhite(self, size):
+        middle= size//2 + 1
+        midLetter= string.ascii_lowercase[self.middle-1]
+        whitePawns= (self.nbrPawns-1)//3
+        cpt=1
+        for i in range(middle-2, middle+2 +1):
+            
+            self.board1[midLetter+ str(i)] = 'P' +str(whitePawns+cpt)
+            cpt+=1
+        for i in string.ascii_lowercase[middle-3:middle+2]:
+            self.board1[i+ str(middle)]= 'P'+ str(whitePawns+cpt)
+            cpt+=1
+
