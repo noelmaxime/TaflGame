@@ -67,6 +67,7 @@ class board:
         self.setBlack(size)
     
     def moves(self, fromPos, toPos):
+        
         if toPos in self.validMoves(fromPos):
             self.board1[toPos]=self.board1[fromPos]
             self.board1[fromPos]= "empty"
@@ -96,17 +97,36 @@ class board:
             else:
                 moves.append(i + pos[1] )
         #bottom direction
-        for i in range(posLetterINDX-1, 0, -1):
+        for i in range(posLetterINDX, 0, -1):
             letter= string.ascii_lowercase[i-1]
             if self.board1[letter + pos[1]] !="empty":
                 break
             else:
                 moves.append(letter +pos[1] )
+        #Remove the corners and the throne for the valid moves if not the king.
+        if self.board1[pos] != 'K':
+            for i in self.getCorners():
+                if i in moves:
+                    moves.remove(i)
+            thronePos=self.midLetter + str(self.middle)
+            if thronePos in moves:
+                moves.remove(thronePos)
 
 
+        
         print("List of valid moves : ", moves )    
-            
+           
         return moves     
+    #Return a list of the corners of the board
+    def getCorners(self):
+        cornerList=["a1"]
+        downRightCorn= "a" + str(self.dimension)
+        upLeftCorn= string.ascii_lowercase[self.dimension-1]  + "1"
+        upRightCorn= string.ascii_lowercase[self.dimension-1]+ str(self.dimension)
+        cornerList.extend((downRightCorn, upLeftCorn, upRightCorn))
+        return cornerList
+    
+    #Returns the numbers of pawns
     def getNbrPawns(self):
         return self.nbrPawns
 
