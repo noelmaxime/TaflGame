@@ -1,11 +1,14 @@
 from player import player
+from board import board
 
 def main():
-    p= player('white')
-    p2= player('black')
-    player.b.setPieces(player.b.dimension)
+    b = board(9)
+    p= player('white', b)
+    p2= player('black', b)
+    b.setPieces(b.dimension)
+
     
-    print(player.b.board1)
-    print(player.nbrPawns)
+    print(b.board1)
+    print(b.nbrPawns)
 if __name__ == '__main__':
     main()
