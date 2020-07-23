@@ -43,8 +43,7 @@ class board:
         #e2 for S9
         self.board1[ self.yAxis[size//2] + '2' ] = 'P'+str(blackPawns//2+1)
         self.board1[ self.yAxis[size//2] + str(size-1) ] = 'P'+str(blackPawns//2+2)
-<<<<<<< HEAD
-=======
+
 
 
     def setPieces(self, size):
@@ -60,4 +59,3 @@ class board:
         return self.nbrPawns
 
 
->>>>>>> 7a17820a3f105a47e384f80057e456526074eb59
