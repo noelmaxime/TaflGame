@@ -35,8 +35,8 @@ class board:
             self.board1[i+ str(self.middle)]= 'W'+ str(cpt)
             cpt+=1
         self.board1[self.midLetter + str(self.middle)]= 'K'
+    #def setBlack(self, size):
     def setBlack(self, size):
-    def setPieces(self, size):
         blackPawns=  (self.nbrPawns-1)*2//3 + 1
         #only for the black pawns on top and bottom without the middle ones
         count=0
@@ -133,4 +133,44 @@ class board:
         return self.nbrPawns
 
 
+    def BoardDisplay(self):
+        #color_definition
+        CLR_GOLD='\033[40m'
+        CLR_DFLT='\033[00m'
+        #print(CLR_GOLD + 'hello guys', CLR_DFLT)
+
+        size=self.dimension
+        line1=" |     "*size +"|"
+        topline = "  " +( "______ "*size)
+        for x in range(1,size+1):
+            print(" |   " +str(x) ,end=" ")
+         
+        print("\n" + CLR_GOLD + topline,CLR_DFLT + "\n"+ CLR_GOLD + line1, CLR_DFLT)
+
+        for x in self.board1:
+
+            val=self.board1[x]
+            if val=='empty':
+                pawn='__'
+            elif len(val)<2:
+                pawn=val+" "
+
+            else:
+                if val[0]=='P':
+                    pawn='B '
+                elif val[0]=='W':
+                    pawn='W '
+
+
+        #DisplayingPawns
+            if str(size) in x:
+                print(CLR_GOLD + " |_"+pawn+"__" +"|" "\n"+line1, CLR_DFLT)
+            else:
+                if x[1]=='1':
+                        print(CLR_GOLD + x[0].upper()+"|_"+pawn+"__", end="")
+                else:
+                        print(" |_"+pawn+"__", end="")
+
+
+      
 
