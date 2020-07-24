@@ -5,3 +5,11 @@ class pawn:
         self.rank= rank
         self.x= x
         self.y= y
+
+    def changePos(self, pos):
+        self.y = pos[0]
+        self.x = pos[1]
+    
+    def getPos(self):
+        return self.y + self.x
+

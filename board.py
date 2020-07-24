@@ -1,5 +1,5 @@
 import string
-from pawn import pawn
+from pawn import pawn 
 class board:
     def __init__(self, dimension ):
         self.dimension= dimension
@@ -21,7 +21,7 @@ class board:
         for i in yAxis:
             for j in range(1, dimension+1):
                 board1[i+str(j)]='empty' 
-    
+    #Place the white pieces on the board.
     def setWhite(self, size):
         cpt=1
         for i in range(self.middle-2, self.middle+2 +1):
@@ -42,40 +42,36 @@ class board:
         count=0
         #size-3 +1 cause size-3 is not included.
         for i in range(4, size-3 +1):
-            self.board1['a'+str(i)]= 'P'+ str(i-3)
-            self.board1[self.yAxis[-1]+str(i)]='P'+ str( blackPawns - (i-3)) 
-            count+=1 
-# previous  for i in range(self.yAxis[3], self.yAxis[size-4] ):
-        # size-4 cause yAxis[] start at index 0 but our letters start at 1
-        for i in range( 3, size-4 + 1 ):
-            cpt=1
-            self.board1[self.yAxis[i]+ '1' ]= 'P'+str( cpt +count)
-            self.board1[self.yAxis[i]+str(size)]='P'+ str(blackPawns-count-cpt)
+
+            self.board1[self.yAxis[i]+ '1' ]= 'B'+str( cpt +count)
+            self.board1[self.yAxis[i]+str(size)]='B'+ str(blackPawns-count-cpt)
             cpt+=1
         #b5 for S9
-        self.board1[ 'b'+ str( size//2 +1)] = 'P'+str(blackPawns//2-1)
+        self.board1[ 'b'+ str( size//2 +1)] = 'B'+str(blackPawns//2-1)
         #h5 for size 9
-        self.board1[ self.yAxis[-2] + str(size//2+1) ] = 'P'+str(blackPawns//2)
+        self.board1[ self.yAxis[-2] + str(size//2+1) ] = 'B'+str(blackPawns//2)
         #e2 for S9
-        self.board1[ self.yAxis[size//2] + '2' ] = 'P'+str(blackPawns//2+1)
+        self.board1[ self.yAxis[size//2] + '2' ] = 'B'+str(blackPawns//2+1)
         #e8 for S9
-        self.board1[ self.yAxis[size//2] +str(size-1)]='P'+str(blackPawns//2+2)
-        self.board1[ self.yAxis[size//2] + str(size-1) ] = 'P'+str(blackPawns//2+2)
 
+        self.board1[ self.yAxis[size//2] +str(size-1)]='B'+str(blackPawns//2+2)
 
 
     def setPieces(self, size):
         self.setWhite(size)
         self.setBlack(size)
     
-    def moves(self, fromPos, toPos):
+    def moves(self, fromPos, toPos, player):
         
         if toPos in self.validMoves(fromPos):
             self.board1[toPos]=self.board1[fromPos]
             self.board1[fromPos]= "empty"
-            
         else:
             print("Invalid move, you can't move diagonally or over other pawns")
+        
+        if self.board1[toPos][0] == 'K' :
+            player.pawns['K'].changePos(toPos)
+
     
     def validMoves(self , pos):
         moves = []
@@ -127,7 +123,57 @@ class board:
         upRightCorn= string.ascii_lowercase[self.dimension-1]+ str(self.dimension)
         cornerList.extend((downRightCorn, upLeftCorn, upRightCorn))
         return cornerList
-    
+    def capture(self, pos):
+        #right direction pos[1]+1 cause we don't want to test his actual position
+
+        firstCase= self.board1[pos[0] +str(int(pos[1])+ 1)]
+        scndCase= self.board1[pos[0]+ str(int(pos[1])+ 2 )]
+        posLetter= self.board1[pos]
+        
+        
+        if firstCase[0] != 'K' and posLetter[0] != firstCase[0] and \
+           posLetter[0] == scndCase[0]:
+            
+            self.board1[pos[0]+str(int(pos[1])+1)]="empty"
+
+        #left direction
+        firstCase= self.board1[pos[0]+ str(int(pos[1])-1 )]
+        scndCase= self.board1[pos[0]+str(int(pos[1])-2 )]
+        
+        if firstCase[0] != 'K' and posLetter[0] != firstCase[0] and \
+           posLetter[0] == scndCase[0]:  
+            
+            self.board1[pos[0]+ str(int(pos[1])-1) ]= "empty"
+        
+        #top direction 
+        #INDX to get the index of the letter cause pos contain "a1" or "f4"
+        posLetterINDX= string.ascii_lowercase.index(pos[0])
+        firstCase=self.board1[string.ascii_lowercase[posLetterINDX+1] + pos[1]]
+        scndCase=self.board1[string.ascii_lowercase[posLetterINDX+2] + pos[1]]     
+        
+        if firstCase[0] != 'K' and  posLetter[0] != firstCase[0] and \
+           posLetter[0] == scndCase[0]: 
+            
+            self.board1[string.ascii_lowercase[posLetterINDX+1]+ pos[1]]="empty"
+        
+        #bottom direction
+        firstCase=self.board1[string.ascii_lowercase[posLetterINDX-1] + pos[1]]
+        scndCase=self.board1[string.ascii_lowercase[posLetterINDX-2] + pos[1]]
+       
+        
+        if firstCase[0] != 'K' and posLetter[0] != firstCase[0] and \
+           posLetter[0] == scndCase[0]:
+            
+            self.board1[string.ascii_lowercase[posLetterINDX-1]+ pos[1]]="empty"
+            
+    def kinginCorners(self, player):
+        kingPos= player.pawns['K'].getPos()
+        bool= False
+        if  kingPos in self.getCorners():
+            return True
+
+        return bool
+
     #Returns the numbers of pawns
     def getNbrPawns(self):
         return self.nbrPawns

@@ -25,3 +25,12 @@ def main():
     print(b.nbrPawns)
 if name == 'main':
     main()
+#bool = True
+#while
+#if bool :
+#     current= P1
+#     bool = False
+#else:
+#     bool=True
+#     current=P2
+
