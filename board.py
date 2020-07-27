@@ -37,23 +37,28 @@ class board:
         self.board1[self.midLetter + str(self.middle)]= 'K'
     #def setBlack(self, size):
     def setBlack(self, size):
+        
         blackPawns=  (self.nbrPawns-1)*2//3 + 1
         #only for the black pawns on top and bottom without the middle ones
         count=0
         #size-3 +1 cause size-3 is not included.
         for i in range(4, size-3 +1):
-
+            self.board1['a'+str(i)]= 'B'+ str(i-3)
+            self.board1[self.yAxis[-1]+str(i)]='B'+ str( blackPawns - (i-3))
+            count+=1
+# size-4 cause yAxis[] start at index 0 but our letters start at 1
+        cpt = 1
+        for i in range( 3, size-4 + 1 ):
             self.board1[self.yAxis[i]+ '1' ]= 'B'+str( cpt +count)
             self.board1[self.yAxis[i]+str(size)]='B'+ str(blackPawns-count-cpt)
             cpt+=1
-        #b5 for S9
-        self.board1[ 'b'+ str( size//2 +1)] = 'B'+str(blackPawns//2-1)
-        #h5 for size 9
+        #b5 for size 9
+        self.board1[ self.yAxis[1]+ str( size//2 +1)] = 'B'+str(blackPawns//2-1)
+        #h5 for s9
         self.board1[ self.yAxis[-2] + str(size//2+1) ] = 'B'+str(blackPawns//2)
-        #e2 for S9
+        #e2 for s9
         self.board1[ self.yAxis[size//2] + '2' ] = 'B'+str(blackPawns//2+1)
-        #e8 for S9
-
+        #e8 for s9
         self.board1[ self.yAxis[size//2] +str(size-1)]='B'+str(blackPawns//2+2)
 
 
@@ -68,6 +73,7 @@ class board:
             self.board1[fromPos]= "empty"
         else:
             print("Invalid move, you can't move diagonally or over other pawns")
+            return False
         
         if self.board1[toPos][0] == 'K' :
             player.pawns['K'].changePos(toPos)
@@ -102,7 +108,7 @@ class board:
             else:
                 moves.append(letter +pos[1] )
         #Remove the corners and the throne for the valid moves if not the king.
-        if self.board1[pos] != 'K':
+        if self.board1[pos][0] != 'K':
             for i in self.getCorners():
                 if i in moves:
                     moves.remove(i)
@@ -202,7 +208,7 @@ class board:
                 pawn=val+" "
 
             else:
-                if val[0]=='P':
+                if val[0]=='B':
                     pawn='B '
                 elif val[0]=='W':
                     pawn='W '

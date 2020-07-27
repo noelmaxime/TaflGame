@@ -23,7 +23,9 @@ def main():
 
 #    print(b.board1)
     print(b.nbrPawns)
-if name == 'main':
+
+
+if __name__ == 'main':
     main()
 #bool = True
 #while

@@ -3,32 +3,51 @@ from board import board
 import os
 import time
 
-
-b=board(9)
-b.setPieces(b.dimension)
 def main():
+  b=board(9)
+  b.setPieces(b.dimension)
+  p= player('white', b)
+  p2= player('black', b)
+  turn = True
+  gameContinue= True
 
-  while bool:
+  while gameContinue:
+      os.system('clear')
+      print(b.board1)
+      b.BoardDisplay()
+      if turn :
+          current= p2
+          turn = False
+      else:
+          current=p
+          turn = True
 
-    os.system('clear')
-    b.BoardDisplay()
-    I_FROM=input('\n' + 'From >>  ')
-    if I_FROM==':q':
-        break
-    elif I_FROM==':s':
-        print('save')
-    I_TO=input('To     >>  ')
-    p= player('white', b)
-    p2= player('black', b)
-    b.moves(I_FROM, I_TO)
+      I_FROM=input('\n' + 'From >>  ')
+      if I_FROM==':q':
+          break
+      elif I_FROM==':s':
+          print('save')
+      I_TO=input('To     >>  ')
+      try:
+          b.moves(I_FROM, I_TO, current)
+      except:
+          pass
+      try:
+          b.capture(I_TO)
+      except:
+          pass
+      if current == p:
+          if b.kinginCorners(p):
+              gameContinue = False
 
-    #print(b.board1)
-    time.sleep(2)
 
+      #print(b.board1)
+      time.sleep(2)
+  print("The Defenders won the game GG")
 
 
 if __name__ == '__main__':
-            main()
+    main()
 
 
 

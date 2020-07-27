@@ -22,7 +22,7 @@ for x in board1:
         pawn=val+" "
     
     else:
-        if val[0]=='P':
+        if val[0]=='B':
             pawn='B '
         elif val[0]=='W':
             pawn='W '
